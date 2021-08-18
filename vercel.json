@@ -1,6 +1,6 @@
 {
     "rewrites": [
-      { "source": "/api", "destination": "https://api.spaceport.to" }
+      { "source": "/api/:match*", "destination": "https://api.spaceport.to/:match*" }
   
     ]
   }
