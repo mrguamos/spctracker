@@ -3,7 +3,7 @@
     <v-card class="mx-auto">
       <v-card-title>Accounts</v-card-title>
       <v-card-text>
-        <v-text-field clearable v-model="address" label="Address">
+        <v-text-field clearable v-model="address" label="Address" x>
           <v-btn
             slot="append-outer"
             color="primary"
@@ -70,7 +70,6 @@ export default {
     getTotalReferral() {
       let total = 0;
       this.referrals.forEach((referral) => {
-        console.log(referral.userBoostedScore);
         total = Number(total) + Number(referral.userBoostedScore.substring(1));
       });
       total = total * 0.2;
