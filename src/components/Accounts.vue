@@ -7,6 +7,7 @@
           <v-btn
             slot="append-outer"
             color="primary"
+            label="Address"
             @click="loadAll(address, accounts)"
           >
             Load
