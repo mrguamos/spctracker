@@ -17,6 +17,9 @@ export default {
   },
   mounted() {
     this.getSPC();
+    setInterval(() => {
+      this.getSPC();
+    }, 10000);
   },
   computed: {},
   methods: {
