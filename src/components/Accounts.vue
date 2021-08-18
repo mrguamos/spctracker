@@ -3,11 +3,10 @@
     <v-card class="mx-auto">
       <v-card-title>Accounts</v-card-title>
       <v-card-text>
-        <v-text-field clearable v-model="address">
+        <v-text-field clearable v-model="address" label="Address">
           <v-btn
             slot="append-outer"
             color="primary"
-            label="Address"
             @click="loadAll(address, accounts)"
           >
             Load
