@@ -64,6 +64,7 @@ export default {
       referrals: [],
       abi: null,
       contract: null,
+      dec: 0,
     };
   },
   inject: ["web3"],
@@ -85,13 +86,14 @@ export default {
         JSON.parse(this.abi.data.data.contractABI),
         "0x21EA8618b9168Eb8936c3e02F0809BBE901282ac"
       );
+      this.dec = await this.contract.methods.decimals().call();
       this.accounts = [];
       this.referrals = [];
       const account = await this.getUser(address, arr);
       await this.getDetails(account, this.accounts);
-      account.data.data.userReferrals.forEach(async (user) => {
+      account.data.data.userReferrals.forEach((user) => {
         this.getUser(user).then((referral) => {
-          this.getDetails(referral, this.referrals);
+          this.getDetails(referral, this.referrals).then();
         });
       });
       this.accountsLoading = false;
@@ -108,7 +110,6 @@ export default {
       account.data.data.wallet = await this.contract.methods
         .balanceOf(account.data.data.userAddress.toLowerCase())
         .call();
-      const dec = await this.contract.methods.decimals().call();
 
       const spc = await getSPC();
 
@@ -123,7 +124,7 @@ export default {
       account.data.data.userTotalPoints = `$${userTotalPointsUSD}`;
 
       let walletUSD = account.data.data.wallet * spc.data.data.price;
-      walletUSD /= Math.pow(10, dec);
+      walletUSD /= Math.pow(10, this.dec);
       walletUSD = walletUSD.toFixed(2);
       account.data.data.wallet = `$${walletUSD}`;
 
