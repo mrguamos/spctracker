@@ -62,6 +62,8 @@ export default {
       accountsLoading: true,
       address: "",
       referrals: [],
+      abi: null,
+      contract: null,
     };
   },
   inject: ["web3"],
@@ -78,6 +80,11 @@ export default {
   },
   methods: {
     async loadAll(address, arr) {
+      this.abi = await this.getABI();
+      this.contract = new this.web3.eth.Contract(
+        JSON.parse(this.abi.data.data.contractABI),
+        "0x21EA8618b9168Eb8936c3e02F0809BBE901282ac"
+      );
       this.accounts = [];
       this.referrals = [];
       const account = await this.getUser(address, arr);
@@ -98,15 +105,10 @@ export default {
       return axios.get("/api/get-abi");
     },
     async getDetails(account, arr) {
-      const abi = await this.getABI();
-      const contract = new this.web3.eth.Contract(
-        JSON.parse(abi.data.data.contractABI),
-        "0x21EA8618b9168Eb8936c3e02F0809BBE901282ac"
-      );
-      account.data.data.wallet = await contract.methods
+      account.data.data.wallet = await this.contract.methods
         .balanceOf(account.data.data.userAddress.toLowerCase())
         .call();
-      const dec = await contract.methods.decimals().call();
+      const dec = await this.contract.methods.decimals().call();
 
       const spc = await getSPC();
 
