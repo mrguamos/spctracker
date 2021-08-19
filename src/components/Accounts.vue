@@ -38,16 +38,7 @@ import { getSPC } from "../services";
 
 export default {
   data() {
-    const headers1 = [
-      { text: "Address", value: "userAddress" },
-      { text: "Highscore", value: "userScore" },
-      { text: "Pending Payout", value: "userBoostedScore" },
-      { text: "%", value: "percentage" },
-      { text: "Referral", value: "referral" },
-      { text: "Total Payout", value: "userTotalPoints" },
-      { text: "Wallet", value: "wallet" },
-    ];
-    const headers2 = [
+    const headers = [
       { text: "Address", value: "userAddress" },
       { text: "Highscore", value: "userScore" },
       { text: "Pending Payout", value: "userBoostedScore" },
@@ -55,6 +46,11 @@ export default {
       { text: "Total Payout", value: "userTotalPoints" },
       { text: "Wallet", value: "wallet" },
     ];
+
+    const headers1 = Object.assign([], headers);
+    headers1.push({ text: "Referral", value: "referral" });
+    const headers2 = Object.assign([], headers);
+
     return {
       headers1: headers1,
       headers2: headers2,
