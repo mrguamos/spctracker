@@ -92,9 +92,17 @@ export default {
       const account = await this.getUser(address, arr);
       await this.getDetails(account, this.accounts);
       account.data.data.userReferrals.forEach((user) => {
-        this.getUser(user).then((referral) => {
-          this.getDetails(referral, this.referrals).then();
-        });
+        this.getUser(user)
+          .then((referral) => {
+            this.getDetails(referral, this.referrals)
+              .then()
+              .catch((e) => {
+                console.log(e);
+              });
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       });
       this.accountsLoading = false;
     },
