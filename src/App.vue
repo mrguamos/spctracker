@@ -23,7 +23,7 @@
           <strong
             >Powered by
             <a href="https://github.com/mrguamos/spctracker" target="_blank"
-              >mrguamos</a
+              >iSkramz</a
             ></strong
           >
         </v-col>
@@ -38,7 +38,9 @@ import Web3 from "web3";
 export default {
   provide() {
     return {
-      web3: new Web3(Web3.givenProvider || "https://bsc-dataseed1.defibit.io/"),
+      web3: new Web3(
+        Web3.givenProvider || "https://bsc-dataseed1.binance.org:443"
+      ),
     };
   },
 };

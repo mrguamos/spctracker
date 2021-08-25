@@ -70,9 +70,7 @@ export default {
     };
   },
   inject: ["web3"],
-  mounted() {
-    this.getTransactions();
-  },
+  mounted() {},
   computed: {
     getTotalReferral() {
       let total = 0;
@@ -84,15 +82,6 @@ export default {
     },
   },
   methods: {
-    async getTransactions() {
-      this.web3.eth
-        .getPastLogs({
-          address: "0x816F7A84bA365963270Ca28f27a012Fd24ab0247",
-          fromBlock: 1,
-          toBlock: 5000,
-        })
-        .then((res) => console.log(res));
-    },
     async loadAll(address, arr) {
       this.abi = await this.getABI();
       this.contract = new this.web3.eth.Contract(
