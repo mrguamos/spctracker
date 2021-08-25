@@ -3,7 +3,12 @@
     <v-card class="mx-auto">
       <v-card-title>Accounts</v-card-title>
       <v-card-text>
-        <v-text-field clearable v-model="address" label="Address" x>
+        <v-text-field
+          clearable
+          v-model="address"
+          label="Address"
+          name="address"
+        >
           <v-btn
             slot="append-outer"
             color="primary"
