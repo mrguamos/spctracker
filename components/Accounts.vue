@@ -160,7 +160,7 @@ export default {
           ) {
             type = 'Reward'
           }
-          let usd = r.value * spc.data.data.price
+          let usd = r.value * spc.data.data.data.price
           usd /= Math.pow(10, this.dec)
 
           const earning = {
@@ -185,11 +185,11 @@ export default {
           this.referrals = []
           const account = await this.getUser(address, arr)
           this.address = account.data.data.userAddress.toLowerCase()
-          await this.getDetails(account, this.accounts, spc)
+          await this.getDetails(account, this.accounts, spc.data)
           account.data.data.userReferrals.forEach((user) => {
             this.getUser(user)
               .then((referral) => {
-                this.getDetails(referral, this.referrals, spc)
+                this.getDetails(referral, this.referrals, spc.data)
                   .then()
                   .catch((e) => {
                     console.log(e)

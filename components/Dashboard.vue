@@ -13,7 +13,7 @@ export default {
   components: { Card },
   async fetch() {
     const res = await this.$getSPC()
-    const spc = res.data
+    const spc = res.data.data
     this.spcUSD = Number(spc.data.price).toFixed(12)
   },
   data() {

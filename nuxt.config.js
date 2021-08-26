@@ -89,5 +89,11 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-  serverMiddleware: [{ path: '/bsc', handler: '~/server-middleware/bsc.ts' }],
+  serverMiddleware: [
+    { path: '/bsc', handler: '~/server-middleware/bsc.ts' },
+    { path: '/pancake', handler: '~/server-middleware/pancake.ts' },
+  ],
+  server: {
+    host: '0', // default: localhost
+  },
 }
