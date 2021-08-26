@@ -136,6 +136,7 @@ export default {
   },
   methods: {
     async getEarnings() {
+      this.page = 1
       if (this.address) {
         this.earningsLoading = true
         this.earnings = []
@@ -176,26 +177,29 @@ export default {
     },
     async loadAll(address, arr) {
       try {
-        const spc = await this.$getSPC()
-        this.dec = await this.$contract.methods.decimals().call()
-        this.accounts = []
-        this.referrals = []
-        const account = await this.getUser(address, arr)
-        this.address = account.data.data.userAddress.toLowerCase()
-        await this.getDetails(account, this.accounts, spc)
-        account.data.data.userReferrals.forEach((user) => {
-          this.getUser(user)
-            .then((referral) => {
-              this.getDetails(referral, this.referrals, spc)
-                .then()
-                .catch((e) => {
-                  console.log(e)
-                })
-            })
-            .catch((e) => {
-              console.log(e)
-            })
-        })
+        if (address) {
+          address = address.toLowerCase()
+          const spc = await this.$getSPC()
+          this.dec = await this.$contract.methods.decimals().call()
+          this.accounts = []
+          this.referrals = []
+          const account = await this.getUser(address, arr)
+          this.address = account.data.data.userAddress.toLowerCase()
+          await this.getDetails(account, this.accounts, spc)
+          account.data.data.userReferrals.forEach((user) => {
+            this.getUser(user)
+              .then((referral) => {
+                this.getDetails(referral, this.referrals, spc)
+                  .then()
+                  .catch((e) => {
+                    console.log(e)
+                  })
+              })
+              .catch((e) => {
+                console.log(e)
+              })
+          })
+        }
       } catch (error) {}
 
       this.accountsLoading = false
