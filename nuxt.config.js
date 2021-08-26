@@ -2,11 +2,10 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   extend(config, { isDev, isClient }) {
-    config.externals = [
-      {
-        electron: 'electron',
-      },
-    ]
+    config.externals = config.externals || {}
+    config.externals.push({
+      electron: 'electron',
+    })
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
