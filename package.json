@@ -9,8 +9,7 @@
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint:style": "stylelint \"**/*.{vue,css}\" --ignore-path .gitignore",
-    "lint": "npm lint:js && npm lint:style",
-    "vercel-build": "npm global add node-gyp"
+    "lint": "npm lint:js && npm lint:style"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint",
