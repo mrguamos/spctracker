@@ -169,9 +169,8 @@ export default {
             type,
           }
           this.earnings.push(earning)
-          this.earningsLoading = false
         })
-
+        this.earningsLoading = false
         this.dialog = true
       }
     },
