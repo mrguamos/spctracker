@@ -27,7 +27,7 @@
             {{ getTotalReferral }}
           </template>
           <template v-slot:[`item.action`]="{}">
-            <v-btn color="primary" @click.stop="getEarnings(address)">
+            <v-btn color="primary" @click.stop="openEarnings()">
               EARNINGS
             </v-btn>
           </template>
@@ -135,8 +135,13 @@ export default {
     },
   },
   methods: {
-    async getEarnings() {
+    openEarnings() {
       this.page = 1
+      this.getEarnings()
+      this.dialog = true
+    },
+
+    async getEarnings() {
       if (this.address) {
         this.earningsLoading = true
         this.earnings = []
@@ -172,7 +177,6 @@ export default {
           this.earnings.push(earning)
         })
         this.earningsLoading = false
-        this.dialog = true
       }
     },
     async loadAll(address, arr) {
