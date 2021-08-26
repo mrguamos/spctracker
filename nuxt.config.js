@@ -23,6 +23,10 @@ export default {
       { name: 'spc', content: 'spc' },
       { name: 'spctracker', content: 'spctracker' },
       { name: 'tracker', content: 'space port tracker' },
+      {
+        name: 'google-site-verification',
+        content: 'QJN78R7S8Y6eU1EwR-cOkZMWP6lLBe4WSSrhH4NEY14',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
