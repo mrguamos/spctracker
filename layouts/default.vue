@@ -13,7 +13,7 @@
     </v-app-bar>
     <v-main>
       <v-container class="py-16">
-        <router-view />
+        <Nuxt />
       </v-container>
     </v-main>
     <v-footer color="primary lighten-1" padless>
@@ -33,18 +33,5 @@
 </template>
 
 <script>
-import Web3 from "web3";
-
-export default {
-  provide() {
-    return {
-      web3: new Web3(
-        Web3.givenProvider || "https://bsc-dataseed1.binance.org:443"
-      ),
-    };
-  },
-};
+export default {}
 </script>
-
-<style>
-</style>
