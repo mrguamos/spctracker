@@ -35,7 +35,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/axios.ts', '~/plugins/spc.ts', '~/plugins/contract.ts'],
+  plugins: ['~/plugins/axios.ts', '~/plugins/spc.ts'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -58,15 +58,6 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    proxy: true,
-  },
-  proxy: {
-    '/api/': {
-      target: 'https://api.spaceport.to',
-      pathRewrite: { '^/api/': '' },
-    },
-  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -90,9 +81,6 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   serverMiddleware: [
-    { path: '/server', handler: '~/server-middleware/server.ts' },
+    { path: '/api', handler: '~/server-middleware/server.ts' },
   ],
-  server: {
-    host: '0', // default: localhost
-  },
 }

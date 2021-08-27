@@ -1,5 +1,5 @@
 export default ({ $axios }: any, inject: any) => {
   inject('getSPC', async () => {
-    return $axios.get('/server/pancake')
+    return $axios.get('/api/pancake')
   })
 }

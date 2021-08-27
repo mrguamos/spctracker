@@ -9,23 +9,17 @@
           label="Address"
           name="address"
         >
-          <v-btn
-            slot="append-outer"
-            color="primary"
-            @click="loadAll(address, accounts)"
-          >
+          <v-btn slot="append-outer" color="primary" @click="loadAll(address)">
             Load
           </v-btn>
         </v-text-field>
         <v-data-table
+          :loading="accountsLoading"
           :headers="headers1"
           :items="accounts"
           disable-pagination
           hide-default-footer
         >
-          <template v-slot:[`item.referral`]="{}">
-            {{ getTotalReferral }}
-          </template>
           <template v-slot:[`item.action`]="{}">
             <v-btn color="primary" @click.stop="openEarnings()">
               EARNINGS
@@ -38,6 +32,7 @@
       <v-card-title>Referrals</v-card-title>
       <v-card-text>
         <v-data-table
+          :loading="accountsLoading"
           :headers="headers2"
           :items="referrals"
           disable-pagination
@@ -109,31 +104,17 @@ export default {
       headers2,
       headers3,
       accounts: [],
-      accountsLoading: true,
-      address: '',
       referrals: [],
-      abi: null,
-      contract: null,
-      dec: 0,
+      accountsLoading: false,
+      address: '',
       dialog: false,
       page: 1,
       pageCount: 100,
       earnings: [],
-      totalDesserts: 0,
       earningsLoading: true,
     }
   },
   mounted() {},
-  computed: {
-    getTotalReferral() {
-      let total = 0
-      this.referrals.forEach((referral) => {
-        total = Number(total) + Number(referral.userBoostedScore.substring(1))
-      })
-      total = total * 0.2
-      return `$${total.toFixed(2)}`
-    },
-  },
   methods: {
     openEarnings() {
       this.page = 1
@@ -147,7 +128,7 @@ export default {
         this.earnings = []
         const spc = await this.$getSPC()
         const res = await this.$axios.get(
-          `/server/earnings/${this.address}?page=${this.page}`
+          `/api/earnings/${this.address}?page=${this.page}`
         )
         const result = res.data.data.result
         if (this.page === this.pageCount) {
@@ -170,7 +151,7 @@ export default {
             type = 'Reward'
           }
           let usd = r.value * spc.data.data.data.price
-          usd /= Math.pow(10, this.dec)
+          usd /= Math.pow(10, 9)
 
           const earning = {
             spc: r.value,
@@ -183,74 +164,19 @@ export default {
         this.earningsLoading = false
       }
     },
-    async loadAll(address, arr) {
+    async loadAll(address) {
+      this.accounts = []
+      this.accountsLoading = true
       try {
         if (address) {
-          address = address.toLowerCase()
-          const spc = await this.$getSPC()
-          this.dec = await this.$contract.methods.decimals().call()
-          this.accounts = []
-          this.referrals = []
-          const account = await this.getUser(address, arr)
-          this.address = account.data.data.userAddress.toLowerCase()
-          await this.getDetails(account, this.accounts, spc.data)
-          account.data.data.userReferrals.forEach((user) => {
-            this.getUser(user)
-              .then((referral) => {
-                this.getDetails(referral, this.referrals, spc.data)
-                  .then()
-                  .catch((e) => {
-                    console.log(e)
-                  })
-              })
-              .catch((e) => {
-                console.log(e)
-              })
-          })
+          const resp = await this.$axios.get(`/api/user/${address}`)
+          this.accounts.push(resp.data.data.user)
+          this.referrals = resp.data.data.referrals
         }
-      } catch (error) {}
-
-      this.accountsLoading = false
-    },
-    getUser(address) {
-      return this.$axios.post(
-        '/api/get-user',
-        {
-          userAddress: address.toLowerCase(),
-        },
-        {
-          origin: 'https://play.spaceport.to',
-          ':authority': 'api.spaceport.to',
-          referer: 'https://play.spaceport.to/',
-        }
-      )
-    },
-    async getDetails(account, arr, spc) {
-      account.data.data.wallet = await this.$contract.methods
-        .balanceOf(account.data.data.userAddress.toLowerCase())
-        .call()
-
-      let userBoostedScoreUSD =
-        account.data.data.userBoostedScore * spc.data.data.price
-      userBoostedScoreUSD = userBoostedScoreUSD.toFixed(2)
-      account.data.data.userBoostedScore = `$${userBoostedScoreUSD}`
-
-      let userTotalPointsUSD =
-        account.data.data.userTotalPoints * spc.data.data.price
-      userTotalPointsUSD = userTotalPointsUSD.toFixed(2)
-      account.data.data.userTotalPoints = `$${userTotalPointsUSD}`
-
-      let walletUSD = account.data.data.wallet * spc.data.data.price
-      walletUSD /= Math.pow(10, this.dec)
-      walletUSD = walletUSD.toFixed(2)
-      account.data.data.wallet = `$${walletUSD}`
-
-      account.data.data.percentage = (
-        (userBoostedScoreUSD / walletUSD) *
-        100
-      ).toFixed(2)
-
-      arr.push(account.data.data)
+      } catch (error) {
+      } finally {
+        this.accountsLoading = false
+      }
     },
   },
 }
