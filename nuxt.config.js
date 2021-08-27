@@ -63,7 +63,7 @@ export default {
   },
   proxy: {
     '/api/': {
-      target: 'https://api2.spaceport.to',
+      target: 'https://api.spaceport.to',
       pathRewrite: { '^/api/': '' },
     },
   },
