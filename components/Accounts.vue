@@ -147,7 +147,7 @@ export default {
         this.earnings = []
         const spc = await this.$getSPC()
         const res = await this.$axios.get(
-          `/bsc/earnings/${this.address}?page=${this.page}`
+          `/server/earnings/${this.address}?page=${this.page}`
         )
         const result = res.data.data.result
         if (this.page === this.pageCount) {
