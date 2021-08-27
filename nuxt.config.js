@@ -85,4 +85,7 @@ export default {
   serverMiddleware: [
     { path: '/api', handler: '~/server-middleware/server.ts' },
   ],
+  server: {
+    host: '0',
+  },
 }
