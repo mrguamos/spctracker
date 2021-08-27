@@ -213,12 +213,17 @@ export default {
       this.accountsLoading = false
     },
     getUser(address) {
-      return this.$axios.post('/api/get-user', {
-        userAddress: address.toLowerCase(),
-      })
-    },
-    getABI() {
-      return this.$axios.get('/api/get-abi')
+      return this.$axios.post(
+        '/api/get-user',
+        {
+          userAddress: address.toLowerCase(),
+        },
+        {
+          origin: 'https://play.spaceport.to',
+          ':authority': 'api.spaceport.to',
+          referer: 'https://play.spaceport.to/',
+        }
+      )
     },
     async getDetails(account, arr, spc) {
       account.data.data.wallet = await this.$contract.methods
