@@ -166,6 +166,7 @@ export default {
     },
     async loadAll(address) {
       this.accounts = []
+      this.referrals = []
       this.accountsLoading = true
       try {
         if (address) {

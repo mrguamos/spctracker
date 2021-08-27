@@ -79,52 +79,54 @@ const app = express()
   }
 
   app.get('/user/:address', async (req, res) => {
-    const address = req.params.address.toLowerCase()
-    const spc = await getSPC()
+    try {
+      const address = req.params.address.toLowerCase()
+      const spc = await getSPC()
 
-    const resp = {
-      user: {
-        userAddress: address,
-        wallet: '',
-        userBoostedScore: '',
-        userTotalPoints: '',
-        percentage: '',
-        userScore: 0,
-        referral: '',
-      },
-      referrals: [] as any,
-    }
-
-    const userResp = await getUser(address)
-    const user = userResp.data.data
-    const userDetails = await getUserDetails(user, spc)
-    resp.user.wallet = userDetails.wallet
-    resp.user.userBoostedScore = userDetails.userBoostedScore
-    resp.user.userTotalPoints = userDetails.userTotalPoints
-    resp.user.percentage = userDetails.percentage
-    resp.user.userScore = userDetails.userScore
-    user.userReferrals = [...new Set(user.userReferrals)]
-    const promises = []
-    for (const referral of user.userReferrals) {
-      promises.push(getUser(referral))
-    }
-
-    const referrals = await Promise.all(promises)
-
-    let referralAmount = 0
-    for (const referral of referrals) {
-      if (referral.data.status === 'success') {
-        const ref = referral.data.data
-        const refDetails = await getUserDetails(ref, spc)
-        resp.referrals.push(refDetails)
-        referralAmount =
-          Number(referralAmount) +
-          Number(refDetails.userBoostedScore.substring(1))
+      const resp = {
+        user: {
+          userAddress: address,
+          wallet: '',
+          userBoostedScore: '',
+          userTotalPoints: '',
+          percentage: '',
+          userScore: 0,
+          referral: '',
+        },
+        referrals: [] as any,
       }
-    }
-    referralAmount = referralAmount * 0.2
-    resp.user.referral = referralAmount.toFixed(2)
-    res.json({ data: resp })
+
+      const userResp = await getUser(address)
+      const user = userResp.data.data
+      const userDetails = await getUserDetails(user, spc)
+      resp.user.wallet = userDetails.wallet
+      resp.user.userBoostedScore = userDetails.userBoostedScore
+      resp.user.userTotalPoints = userDetails.userTotalPoints
+      resp.user.percentage = userDetails.percentage
+      resp.user.userScore = userDetails.userScore
+      user.userReferrals = [...new Set(user.userReferrals)]
+      const promises = []
+      for (const referral of user.userReferrals) {
+        promises.push(getUser(referral))
+      }
+
+      const referrals = await Promise.all(promises)
+
+      let referralAmount = 0
+      for (const referral of referrals) {
+        if (referral.data.status === 'success') {
+          const ref = referral.data.data
+          const refDetails = await getUserDetails(ref, spc)
+          resp.referrals.push(refDetails)
+          referralAmount =
+            Number(referralAmount) +
+            Number(refDetails.userBoostedScore.substring(1))
+        }
+      }
+      referralAmount = referralAmount * 0.2
+      resp.user.referral = referralAmount.toFixed(2)
+      res.json({ data: resp })
+    } catch (error) {}
   })
 
   async function getSPC() {
