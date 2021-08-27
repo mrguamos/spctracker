@@ -1,6 +1,8 @@
 import express from 'express'
 import axios from 'axios'
 import Web3 from 'web3'
+
+axios.defaults.timeout = 30000
 const app = express()
 ;(async () => {
   const apiKey = process.env.API_KEY
