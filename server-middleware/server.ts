@@ -10,7 +10,7 @@ const app = express()
     Web3.givenProvider || 'https://bsc-dataseed1.binance.org:443'
   )
 
-  const abi = await axios.get('https://api.spaceport.to/get-abi')
+  const abi = await axios.get('https://api2.spaceport.to/get-abi')
   const contract = new web3.eth.Contract(
     JSON.parse(abi.data.data.contractABI),
     '0x21EA8618b9168Eb8936c3e02F0809BBE901282ac'
@@ -38,7 +38,7 @@ const app = express()
   })
 
   async function getUser(address: string) {
-    return axios.post('https://api.spaceport.to/get-user', {
+    return axios.post('https://api2.spaceport.to/get-user', {
       userAddress: address,
     })
   }
