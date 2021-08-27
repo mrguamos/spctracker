@@ -161,7 +161,11 @@ export default {
           if (
             r.from.toLowerCase() !==
               '0xd2fa16a8324018ab09d151a0b6ed8b2ef3815aa0'.toLowerCase() &&
-            r.to.toLowerCase() !== '0xd2fa16a8324018ab09d151a0b6ed8b2ef3815aa0'
+            r.to.toLowerCase() !==
+              '0xd2fa16a8324018ab09d151a0b6ed8b2ef3815aa0' &&
+            r.from.toLowerCase() !==
+              '0xcf0febd3f17cef5b47b0cd257acf6025c5bff3b7' &&
+            r.to.toLowerCase() !== '0xcf0febd3f17cef5b47b0cd257acf6025c5bff3b7'
           ) {
             type = 'Reward'
           }
