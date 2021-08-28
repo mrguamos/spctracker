@@ -29,6 +29,13 @@ export default {
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      {
+        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+        'data-ad-client': 'ca-pub-2750678174412562',
+        async: true,
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -55,6 +62,10 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    // ['@nuxtjs/google-adsense',
+    // {
+    //   id: 'ca-pub-2750678174412562',
+    // }]
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
