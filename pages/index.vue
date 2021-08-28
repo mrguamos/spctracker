@@ -1,5 +1,12 @@
 <template>
   <div>
+    <v-alert type="info" elevation="24" dismissible>
+      Prices are based on PancakeSwap, may flactuate anytime.
+    </v-alert>
+    <v-alert type="warning" color="orange darken-4" elevation="24" dismissible>
+      This tracker only needs wallet address. Never give your seed / key phrase
+      to anyone.
+    </v-alert>
     <Dashboard />
     <Accounts class="mt-10" />
   </div>
