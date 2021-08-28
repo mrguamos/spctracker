@@ -126,7 +126,7 @@ const app = express()
         }
       }
       referralAmount = referralAmount * 0.2
-      resp.user.referral = referralAmount.toFixed(2)
+      resp.user.referral = `$${referralAmount.toFixed(2)}`
       res.json({ data: resp })
     } catch (error) {}
   })
