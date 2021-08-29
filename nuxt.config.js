@@ -9,8 +9,7 @@ export default {
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - spctracker',
-    title: 'spctracker',
+    title: 'SpacePort Tracker',
     htmlAttrs: {
       lang: 'en',
     },
