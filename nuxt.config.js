@@ -23,21 +23,12 @@ export default {
       { name: 'spctracker', content: 'spctracker' },
       { name: 'tracker', content: 'space port tracker' },
       {
-        name: 'google-site-verification',
-        content: 'QJN78R7S8Y6eU1EwR-cOkZMWP6lLBe4WSSrhH4NEY14',
-      },
-      {
         name: 'propeller',
         content: '4f5d8fb70ecbc7cd239e7caddc20a3f6',
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
-      {
-        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
-        'data-ad-client': 'ca-pub-2750678174412562',
-        async: true,
-      },
       {
         src: '//inpage-push.com/400/4483847',
         async: 'async',
