@@ -26,6 +26,10 @@ export default {
         name: 'google-site-verification',
         content: 'QJN78R7S8Y6eU1EwR-cOkZMWP6lLBe4WSSrhH4NEY14',
       },
+      {
+        name: 'propeller',
+        content: '4f5d8fb70ecbc7cd239e7caddc20a3f6',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
