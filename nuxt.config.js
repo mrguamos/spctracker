@@ -38,6 +38,11 @@ export default {
         'data-ad-client': 'ca-pub-2750678174412562',
         async: true,
       },
+      {
+        src: '//inpage-push.com/400/4483847',
+        async: 'async',
+        'data-cfasync': false,
+      },
     ],
   },
 
