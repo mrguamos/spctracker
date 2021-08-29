@@ -95,7 +95,6 @@ export default {
   build: {},
   serverMiddleware: [
     { path: '/api', handler: '~/server-middleware/server.ts' },
-    '~/server-middleware/redirect.ts',
   ],
   server: {
     host: '0',
