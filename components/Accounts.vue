@@ -150,7 +150,7 @@ export default {
           ) {
             type = 'Reward'
           }
-          let usd = r.value * spc.data.data.data.price
+          let usd = r.value * spc.data.data.price
           usd /= Math.pow(10, 9)
 
           const earning = {

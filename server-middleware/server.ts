@@ -80,7 +80,7 @@ const app = express()
     return userDetails
   }
 
-  app.get('/user/:address', async (req, res) => {
+  app.get('/referrals/:address', async (req, res) => {
     try {
       const address = req.params.address.toLowerCase()
       const spc = await getSPC()
@@ -136,5 +136,32 @@ const app = express()
       `https://api.pancakeswap.info/api/v2/tokens/0x21ea8618b9168eb8936c3e02f0809bbe901282ac`
     )
   }
+
+  app.get('/user/:address', async (req, res) => {
+    const address = req.params.address.toLowerCase()
+    const spc = await getSPC()
+
+    const resp = {
+      user: {
+        userAddress: address,
+        wallet: '',
+        userBoostedScore: '',
+        userTotalPoints: '',
+        percentage: '',
+        userScore: 0,
+        referral: '',
+      },
+      referrals: [] as any,
+    }
+
+    const userResp = await getUser(address)
+    const user = userResp.data.data
+    const userDetails = await getUserDetails(user, spc)
+    resp.user.wallet = userDetails.wallet
+    resp.user.userBoostedScore = userDetails.userBoostedScore
+    resp.user.userTotalPoints = userDetails.userTotalPoints
+    resp.user.percentage = userDetails.percentage
+    resp.user.userScore = userDetails.userScore
+  })
 })()
 module.exports = app
