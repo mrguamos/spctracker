@@ -32,11 +32,6 @@ const app = express()
     }
   })
 
-  app.get('/pancake', async (req, res) => {
-    const resp = await getSPC()
-    res.json({ data: resp.data })
-  })
-
   async function getUser(address: string) {
     return axios.post('https://api2.spaceport.to/get-user', {
       userAddress: address,
