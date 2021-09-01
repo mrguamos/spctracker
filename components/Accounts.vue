@@ -166,6 +166,7 @@ export default {
       this.page = 1
       this.accounts = []
       this.referrals = []
+      this.earnings = []
       this.accountsLoading = true
       this.earningsLoading = true
       try {
