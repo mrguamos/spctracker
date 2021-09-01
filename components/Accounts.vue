@@ -133,7 +133,7 @@ export default {
           r.from.toLowerCase() !==
             '0xcf0febd3f17cef5b47b0cd257acf6025c5bff3b7' &&
           r.to.toLowerCase() !== '0xcf0febd3f17cef5b47b0cd257acf6025c5bff3b7' &&
-          r.toLowerCase() === this.address
+          r.to.toLowerCase() === this.address
         ) {
           type = 'Reward'
         }
