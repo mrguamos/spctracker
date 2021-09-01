@@ -157,6 +157,7 @@ const app = express()
     resp.user.userTotalPoints = userDetails.userTotalPoints
     resp.user.percentage = userDetails.percentage
     resp.user.userScore = userDetails.userScore
+    res.json({ data: resp })
   })
 })()
 module.exports = app
