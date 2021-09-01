@@ -20,17 +20,17 @@ const app = express()
 
   app.use(express.json())
   app.get('/earnings/:address', async (req, res) => {
-    try {
-      const address = req.params.address
-      const page = req.query.page
-      const resp = await axios.get(
-        `https://api.bscscan.com/api?module=account&action=tokentx&address=${address}&contractaddress=0x21ea8618b9168eb8936c3e02f0809bbe901282ac&sort=desc&page=${page}&offset=10&apikey=${apiKey}`
-      )
-      res.json({ data: resp.data })
-    } catch (error) {
-      console.log(error)
-    }
+    const address = req.params.address
+    const page = req.query.page
+    const resp = await getEarnings(address, Number(page))
+    res.json({ data: resp.data })
   })
+
+  async function getEarnings(address: string, page: number) {
+    return axios.get(
+      `https://api.bscscan.com/api?module=account&action=tokentx&address=${address}&contractaddress=0x21ea8618b9168eb8936c3e02f0809bbe901282ac&sort=desc&page=${page}&offset=10&apikey=${apiKey}`
+    )
+  }
 
   async function getUser(address: string) {
     return axios.post('https://api2.spaceport.to/get-user', {
@@ -133,31 +133,38 @@ const app = express()
   }
 
   app.get('/user/:address', async (req, res) => {
-    const address = req.params.address.toLowerCase()
-    const spc = await getSPC()
+    try {
+      const address = req.params.address.toLowerCase()
+      const spc = await getSPC()
 
-    const resp = {
-      user: {
-        userAddress: address,
-        wallet: '',
-        userBoostedScore: '',
-        userTotalPoints: '',
-        percentage: '',
-        userScore: 0,
-        referral: '',
-      },
-      referrals: [] as any,
+      const resp = {
+        user: {
+          userAddress: address,
+          wallet: '',
+          userBoostedScore: '',
+          userTotalPoints: '',
+          percentage: '',
+          userScore: 0,
+          referral: '',
+        },
+        referrals: [] as any,
+        earnings: [] as any,
+      }
+
+      const userResp = await getUser(address)
+      const user = userResp.data.data
+      const userDetails = await getUserDetails(user, spc)
+      resp.user.wallet = userDetails.wallet
+      resp.user.userBoostedScore = userDetails.userBoostedScore
+      resp.user.userTotalPoints = userDetails.userTotalPoints
+      resp.user.percentage = userDetails.percentage
+      resp.user.userScore = userDetails.userScore
+      const earnings = await getEarnings(address, 1)
+      resp.earnings = earnings.data.result
+      res.json({ data: resp })
+    } catch (error) {
+      console.log(error)
     }
-
-    const userResp = await getUser(address)
-    const user = userResp.data.data
-    const userDetails = await getUserDetails(user, spc)
-    resp.user.wallet = userDetails.wallet
-    resp.user.userBoostedScore = userDetails.userBoostedScore
-    resp.user.userTotalPoints = userDetails.userTotalPoints
-    resp.user.percentage = userDetails.percentage
-    resp.user.userScore = userDetails.userScore
-    res.json({ data: resp })
   })
 })()
 module.exports = app
