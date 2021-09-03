@@ -37,9 +37,6 @@ export default {
         async: 'async',
         'data-cfasync': false,
       },
-      {
-        src: 'propeller.js',
-      },
     ],
   },
 
