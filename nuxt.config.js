@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   googleAnalytics: {
-    id: 'G-JNVMG8BSDE',
+    id: 'UA-206693173-1',
   },
   extend(config, { isDev, isClient }) {
     config.externals = config.externals || {}
