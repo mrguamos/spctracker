@@ -42,10 +42,6 @@ export default {
         'data-cfasync': false,
       },
       {
-        src: '//p437628.clksite.com/adServe/banners?tid=437628_857144_0',
-        'data-cfasync': false,
-      },
-      {
         src: '//p437628.clksite.com/adServe/banners?tid=437628_857144_7&type=floating_banner&size=6&side=right&position=bottom',
         'data-cfasync': false,
       },
