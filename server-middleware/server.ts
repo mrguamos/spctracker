@@ -150,15 +150,17 @@ const app = express()
         referrals: [] as any,
         earnings: [] as any,
       }
+      try {
+        const userResp = await getUser(address)
+        const user = userResp.data.data
+        const userDetails = await getUserDetails(user, spc)
+        resp.user.wallet = userDetails.wallet
+        resp.user.userBoostedScore = userDetails.userBoostedScore
+        resp.user.userTotalPoints = userDetails.userTotalPoints
+        resp.user.percentage = userDetails.percentage
+        resp.user.userScore = userDetails.userScore
+      } catch (error) {}
 
-      const userResp = await getUser(address)
-      const user = userResp.data.data
-      const userDetails = await getUserDetails(user, spc)
-      resp.user.wallet = userDetails.wallet
-      resp.user.userBoostedScore = userDetails.userBoostedScore
-      resp.user.userTotalPoints = userDetails.userTotalPoints
-      resp.user.percentage = userDetails.percentage
-      resp.user.userScore = userDetails.userScore
       const earnings = await getEarnings(address, 1)
       resp.earnings = earnings.data.result
       res.json({ data: resp })
