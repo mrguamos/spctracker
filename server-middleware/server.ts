@@ -10,13 +10,19 @@ const app = express()
     Web3.givenProvider || 'https://bsc-dataseed1.binance.org:443'
   )
 
-  const abi = await axios.get('https://api2.spaceport.to/get-abi')
-  const contract = new web3.eth.Contract(
-    JSON.parse(abi.data.data.contractABI),
-    '0x21EA8618b9168Eb8936c3e02F0809BBE901282ac'
-  )
+  let abi: any
+  let contract: any
+  let dec: any
 
-  const dec = await contract.methods.decimals().call()
+  try {
+    abi = await axios.get('https://api2.spaceport.to/get-abi')
+    contract = new web3.eth.Contract(
+      JSON.parse(abi.data.data.contractABI),
+      '0x21EA8618b9168Eb8936c3e02F0809BBE901282ac'
+    )
+
+    dec = await contract.methods.decimals().call()
+  } catch (error) {}
 
   app.use(express.json())
   app.get('/earnings/:address', async (req, res) => {
