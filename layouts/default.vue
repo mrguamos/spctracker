@@ -11,7 +11,15 @@
         />
       </div>
     </v-app-bar>
+
     <v-main>
+      <v-container>
+        <v-banner style="text-align: center">
+          How do you track your
+          <a href="https://spaceport.to/" target="_blank">SpacePort</a> daily
+          quota and USD earnings? This tracker does it for you.
+        </v-banner>
+      </v-container>
       <v-container class="py-16">
         <Nuxt />
       </v-container>
