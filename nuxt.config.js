@@ -33,9 +33,12 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
       {
-        src: '//inpage-push.com/400/4483847',
+        src: 'banner.js',
+      },
+      {
         async: 'async',
         'data-cfasync': false,
+        src: '//upgulpinon.com/1?z=4500372',
       },
     ],
   },
