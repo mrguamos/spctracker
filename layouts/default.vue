@@ -29,7 +29,7 @@
         <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
           {{ new Date().getFullYear() }} —
           <strong
-            >Powered by
+            >SpacePort Tracker Powered by
             <a href="https://github.com/mrguamos/spctracker" target="_blank"
               >iSkramz</a
             ></strong
