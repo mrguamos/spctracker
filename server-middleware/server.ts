@@ -1,7 +1,8 @@
 import express from 'express'
 import axios from 'axios'
 import Web3 from 'web3'
-
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'
+process.env.DEBUG = 'nuxt:*'
 axios.defaults.timeout = 30000
 const app = express()
 ;(async () => {
@@ -15,7 +16,7 @@ const app = express()
   let dec: any
 
   try {
-    abi = await axios.get('https://api2.spaceport.to/get-abi')
+    abi = await axios.get('https://api.spaceport.to/get-abi')
     contract = new web3.eth.Contract(
       JSON.parse(abi.data.data.contractABI),
       '0x21EA8618b9168Eb8936c3e02F0809BBE901282ac'
@@ -39,7 +40,7 @@ const app = express()
   }
 
   async function getUser(address: string) {
-    return axios.post('https://api2.spaceport.to/get-user', {
+    return axios.post('https://api.spaceport.to/get-user', {
       userAddress: address,
     })
   }
@@ -129,7 +130,9 @@ const app = express()
       referralAmount = referralAmount * 0.2
       resp.user.referral = `$${referralAmount.toFixed(2)}`
       res.json({ data: resp })
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   })
 
   async function getSPC() {
@@ -165,7 +168,9 @@ const app = express()
         resp.user.userTotalPoints = userDetails.userTotalPoints
         resp.user.percentage = userDetails.percentage
         resp.user.userScore = userDetails.userScore
-      } catch (error) {}
+      } catch (error) {
+        console.log(error)
+      }
 
       const earnings = await getEarnings(address, 1)
       resp.earnings = earnings.data.result
