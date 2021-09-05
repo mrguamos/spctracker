@@ -30,7 +30,7 @@
           {{ new Date().getFullYear() }} —
           <strong
             >SpacePort Tracker Powered by
-            <a href="https://github.com/mrguamos/spctracker" target="_blank"
+            <a href="https://github.com/mrguamos" target="_blank"
               >iSkramz</a
             ></strong
           >
