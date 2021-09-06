@@ -28,7 +28,7 @@
         </v-data-table>
       </v-card-text>
     </v-card>
-    <v-card class="mx-auto mt-4" v-if="referral">
+    <!-- <v-card class="mx-auto mt-4" v-if="referral">
       <v-card-title>Referrals</v-card-title>
       <v-card-text>
         <v-data-table
@@ -39,7 +39,7 @@
           hide-default-footer
         ></v-data-table>
       </v-card-text>
-    </v-card>
+    </v-card> -->
 
     <v-card class="mx-auto mt-4">
       <v-card-title> Earnings </v-card-title>
@@ -83,7 +83,7 @@ export default {
     ]
 
     const headers1 = Object.assign([], headers)
-    headers1.push({ text: 'Referral', value: 'referral' })
+    //headers1.push({ text: 'Referral', value: 'referral' })
     //headers1.push({ text: 'Action', value: 'action' })
     const headers2 = Object.assign([], headers)
 
