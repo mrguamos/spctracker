@@ -36,19 +36,19 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
-      // {
-      //   src: 'banner.js',
-      // },
-      // {
-      //   async: 'async',
-      //   'data-cfasync': false,
-      //   src: '//upgulpinon.com/1?z=4500372',
-      // },
-      // {
-      //   src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
-      //   'data-ad-client': 'ca-pub-2750678174412562',
-      //   async: true,
-      // },
+      {
+        src: 'banner.js',
+      },
+      {
+        async: 'async',
+        'data-cfasync': false,
+        src: '//upgulpinon.com/1?z=4500372',
+      },
+      {
+        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+        'data-ad-client': 'ca-pub-2750678174412562',
+        async: true,
+      },
     ],
   },
 
