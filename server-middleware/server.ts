@@ -99,6 +99,7 @@ const app = express()
           percentage: '',
           userScore: 0,
           referral: '',
+          totalSPC: 0,
         },
         referrals: [] as any,
       }
@@ -106,6 +107,7 @@ const app = express()
       const userResp = await getUser(address)
       const user = userResp.data.data
       const userDetails = await getUserDetails(user, spc)
+      resp.user.totalSPC = userDetails.totalSPC
       resp.user.wallet = userDetails.wallet
       resp.user.userBoostedScore = userDetails.userBoostedScore
       resp.user.userTotalPoints = userDetails.userTotalPoints
