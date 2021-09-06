@@ -61,6 +61,7 @@ const app = express()
       .call()
 
     userDetails.totalSPC = wallet
+    userDetails.totalSPC /= Math.pow(10, dec)
 
     const userBoostedScoreUSD = (
       user.userBoostedScore * spc.data.data.price
