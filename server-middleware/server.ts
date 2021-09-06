@@ -53,11 +53,14 @@ const app = express()
       userTotalPoints: '',
       percentage: '',
       userScore: 0,
+      totalSPC: 0,
     }
 
     const wallet = await contract.methods
       .balanceOf(user.userAddress.toLowerCase())
       .call()
+
+    userDetails.totalSPC = wallet
 
     const userBoostedScoreUSD = (
       user.userBoostedScore * spc.data.data.price

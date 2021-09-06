@@ -78,6 +78,7 @@ export default {
       { text: 'Pending Payout', value: 'userBoostedScore' },
       { text: '%', value: 'percentage' },
       { text: 'Total Payout', value: 'userTotalPoints' },
+      { text: 'Total SPC', value: 'totalSPC' },
       { text: 'Wallet', value: 'wallet' },
     ]
 
