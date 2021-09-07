@@ -140,8 +140,9 @@ export default {
         }
         let usd = r.value * spc.data.data.price
         usd /= Math.pow(10, 9)
+
         const earning = {
-          spc: r.value,
+          spc: (r.value /= Math.pow(10, 9)),
           usd: `$${usd.toFixed(2)}`,
           date: new Date(r.timeStamp * 1000).toString(),
           type,
