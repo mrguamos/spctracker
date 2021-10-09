@@ -25,6 +25,9 @@
           <template v-slot:[`item.hash`]="{ item }">
             <div class="font-weight-bold short-address">{{ item.hash }}</div>
           </template>
+          <template v-slot:[`item.spuUsd`]="{ item }">
+            {{ item.spuUsd.value }}
+          </template>
         </v-data-table>
         <div class="text-center pt-2">
           <v-pagination
@@ -45,6 +48,7 @@ import {
   ref,
   getCurrentInstance,
   inject,
+  computed,
 } from '@vue/composition-api'
 import axios from 'axios'
 import { SPU, rpAddress } from '../chain/chain'
@@ -102,13 +106,12 @@ export default defineComponent({
                       const data = ISpu.parseLog(log)
                       const { value } = data.args
                       t.spu = value / Math.pow(10, 9)
-                      t.spuUsd = (t.spu * spuUsd.value).toLocaleString(
-                        'en-US',
-                        {
+                      t.spuUsd = computed(() => {
+                        return (t.spu * spuUsd.value).toLocaleString('en-US', {
                           style: 'currency',
                           currency: 'USD',
-                        }
-                      )
+                        })
+                      })
 
                       const isoDate = new Date(r.timeStamp * 1000).toISOString()
                       const result: any = await client.query({
