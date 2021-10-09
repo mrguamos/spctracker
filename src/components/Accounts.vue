@@ -68,9 +68,20 @@
                 <v-icon color="grey">mdi-refresh</v-icon>
               </v-btn>
               <router-link :to="`/history/${item.address}`">
-                <v-btn class="ml-1" color="primary" outlined>
-                  <v-icon color="grey">mdi-receipt</v-icon>
-                </v-btn>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="ml-1"
+                      color="primary"
+                      outlined
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon color="grey">mdi-receipt</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Rewards History</span>
+                </v-tooltip>
               </router-link>
             </div>
           </template>
