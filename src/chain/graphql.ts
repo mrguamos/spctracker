@@ -23,8 +23,6 @@ export const client = new ApolloClient({
   cache,
 })
 
-console.log(new Date().toISOString())
-
 export const lpQuery = `query GetSpuUsd($time: ISO8601DateTime!){
   ethereum(network: bsc) {
     bnbBusd: dexTrades(
