@@ -118,7 +118,10 @@ export default defineComponent({
                         query: gql`
                           ${lpQuery}
                         `,
-                        variables: { time: isoDate },
+                        variables: {
+                          time: isoDate,
+                          date: isoDate.substring(0, 10),
+                        },
                       })
                       const spuBnb = result.data.ethereum.spuBnb[0]?.quotePrice
                       const bnbBusd =

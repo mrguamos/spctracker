@@ -23,14 +23,14 @@ export const client = new ApolloClient({
   cache,
 })
 
-export const lpQuery = `query GetSpuUsd($time: ISO8601DateTime!){
+export const lpQuery = `query GetSpuUsd($time: ISO8601DateTime!, $date: ISO8601DateTime!){
   ethereum(network: bsc) {
     bnbBusd: dexTrades(
       baseCurrency: {is: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"}
       quoteCurrency: {is: "0xe9e7cea3dedca5984780bafc599bd69add087d56"}
       exchangeName: {in: ["Pancake v2"]}
       options: {desc: ["block.height", "transaction.index"], limit: 1}
-      time: {before: $time}
+      time: {between: [$date, $time]}
     ) {
       block {
         height
@@ -54,7 +54,7 @@ export const lpQuery = `query GetSpuUsd($time: ISO8601DateTime!){
       quoteCurrency: {is: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"}
       exchangeName: {in: ["Pancake v2"]}
       options: {desc: ["block.height", "transaction.index"], limit: 1}
-      time: {before: $time}
+      time: {between: [$date, $time]}
     ) {
       block {
         height
