@@ -1,14 +1,17 @@
 <template>
   <div>
     <v-row justify="center">
-      <v-col cols="6" sm="6" md="4">
+      <v-col cols="6" sm="6" md="3">
         <Card :content="totalSpu" :title="'Total SPU'" />
       </v-col>
-      <v-col cols="6" sm="6" md="4">
+      <v-col cols="6" sm="6" md="3">
         <Card :content="`${totalSpuUsd}`" :title="'Total SPU / USD'" />
       </v-col>
-      <v-col cols="6" sm="6" md="4">
+      <v-col cols="6" sm="6" md="3">
         <Card :content="`$${spuUsd}`" :title="'SPU / USD'" />
+      </v-col>
+      <v-col cols="6" sm="6" md="3">
+        <Card :content="rpBalance" :title="'Rewards Pool'" />
       </v-col>
     </v-row>
   </div>
@@ -29,15 +32,16 @@ import Web3 from 'web3'
 import { Contract } from 'web3-eth-contract'
 import { useAccounts } from '../store/accounts'
 import { usePrices } from '../store/prices'
+import { rpAddress } from '../chain/chain'
 
 export default defineComponent({
   components: { Card },
   setup() {
-    const lpSpu = inject('lpSpu') as Contract
-    const lpBnb = inject('lpBnb') as Contract
     const web3 = inject('web3') as Web3
+    const spu = inject('spu') as Contract
     const { accounts } = useAccounts()
     const { spuUsd, getPrices } = usePrices()
+    const rpBalance = ref('0')
 
     const totalSpu = computed(() => {
       let total = 0
@@ -59,10 +63,25 @@ export default defineComponent({
       )
     })
 
+    async function getRPBalance() {
+      try {
+        rpBalance.value = (
+          (await spu.methods.balanceOf(rpAddress).call()) / Math.pow(10, 9)
+        ).toLocaleString('en-US', { minimumFractionDigits: 9 })
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setTimeout(getRPBalance, 5000)
+      }
+    }
+
+    getRPBalance()
+
     return {
       totalSpu,
       totalSpuUsd,
       spuUsd,
+      rpBalance,
     }
   },
 })
