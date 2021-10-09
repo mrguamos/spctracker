@@ -11,7 +11,7 @@
       the list, try next page.
     </v-alert>
     <v-card class="mx-auto">
-      <v-card-title>Combat History</v-card-title>
+      <v-card-title>Claim History</v-card-title>
       <v-card-text>
         <v-data-table
           disable-sort
