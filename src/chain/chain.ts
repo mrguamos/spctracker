@@ -1,4 +1,5 @@
-export const rpc = 'https://bsc-dataseed1.defibit.io/'
+export const rpc =
+  'https://speedy-nodes-nyc.moralis.io/93b743973f58e4a2f6caa839/bsc/mainnet'
 export const rpcWS =
   'wss://speedy-nodes-nyc.moralis.io/93b743973f58e4a2f6caa839/bsc/mainnet/ws'
 export const spuAddress = '0x7f60375245cbf30a4f1ffd1278e3601fadca2c4d'
