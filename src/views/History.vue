@@ -115,26 +115,33 @@ export default defineComponent({
                       })
 
                       const isoDate = new Date(r.timeStamp * 1000).toISOString()
-                      const result: any = await client.query({
-                        query: gql`
-                          ${lpQuery}
-                        `,
-                        variables: {
-                          time: isoDate,
-                          date: isoDate.substring(0, 10),
-                        },
-                      })
-                      const spuBnb = result.data.ethereum.spuBnb[0]?.quotePrice
-                      const bnbBusd =
-                        result.data.ethereum.bnbBusd[0]?.quotePrice
-                      const prevSpuUsd = spuBnb * bnbBusd
-                      t.prevSpuUsd = (t.spu * prevSpuUsd).toLocaleString(
-                        'en-US',
-                        {
-                          style: 'currency',
-                          currency: 'USD',
-                        }
-                      )
+                      try {
+                        const result: any = await client.query({
+                          query: gql`
+                            ${lpQuery}
+                          `,
+                          variables: {
+                            time: isoDate,
+                            date: isoDate.substring(0, 10),
+                          },
+                        })
+                        const spuBnb =
+                          result.data.ethereum.spuBnb[0]?.quotePrice
+                        const bnbBusd =
+                          result.data.ethereum.bnbBusd[0]?.quotePrice
+                        const prevSpuUsd = spuBnb * bnbBusd
+                        t.prevSpuUsd = (t.spu * prevSpuUsd).toLocaleString(
+                          'en-US',
+                          {
+                            style: 'currency',
+                            currency: 'USD',
+                          }
+                        )
+                      } catch (error) {
+                        console.log(error)
+                        t.prevSpuUsd = 'Unable to fetch from bitquery'
+                      }
+
                       return t
                     }
                   }
