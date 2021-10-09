@@ -3,6 +3,19 @@ import {
   createHttpLink,
   InMemoryCache,
 } from '@apollo/client/core'
+import VueCompositionAPI, { reactive, ref, toRefs } from '@vue/composition-api'
+import Vue from 'vue'
+import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist'
+
+Vue.use(VueCompositionAPI)
+
+const state = reactive({
+  initializing: true,
+})
+
+const useGraphQL = () => {
+  return { ...toRefs(state) }
+}
 
 export const API_KEY = 'BQYgEoqOYEcN4A1DyI2L4aistDjEUMc3'
 export const url = 'https://graphql.bitquery.io/'
@@ -17,10 +30,17 @@ const httpLink = createHttpLink({
 // Cache implementation
 const cache = new InMemoryCache()
 
-// Create the apollo client
-export const client = new ApolloClient({
-  link: httpLink,
+export let client: any
+
+persistCache({
   cache,
+  storage: new LocalStorageWrapper(window.localStorage),
+}).then(() => {
+  client = new ApolloClient({
+    link: httpLink,
+    cache,
+  })
+  state.initializing = false
 })
 
 export const lpQuery = `query GetSpuUsd($time: ISO8601DateTime!, $date: ISO8601DateTime!){
@@ -76,3 +96,4 @@ export const lpQuery = `query GetSpuUsd($time: ISO8601DateTime!, $date: ISO8601D
   }
 }
 `
+export { useGraphQL }

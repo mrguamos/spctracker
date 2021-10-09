@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!initializing">
     <v-alert
       type="warning"
       color="primary darken-4"
@@ -55,7 +55,7 @@ import { SPU, rpAddress } from '../chain/chain'
 import Web3 from 'web3'
 import { ethers } from 'ethers'
 import { usePrices } from '../store/prices'
-import { client, lpQuery } from '../chain/graphql'
+import { client, lpQuery, useGraphQL } from '../chain/graphql'
 import gql from 'graphql-tag'
 
 export default defineComponent({
@@ -69,6 +69,7 @@ export default defineComponent({
     const pageCount = ref(100)
     const getClaimHistoryLoading = ref(false)
     const encodedRPAddress = web3.eth.abi.encodeParameter('address', rpAddress)
+    const { initializing } = useGraphQL()
     const claimHistoryHeaders = [
       { text: 'Txn Hash', value: 'hash' },
       { text: 'SPU', value: 'spu' },
@@ -160,6 +161,7 @@ export default defineComponent({
       claimHistoryHeaders,
       getClaimHistoryLoading,
       getClaimHistory,
+      initializing,
     }
   },
 })

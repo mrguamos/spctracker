@@ -67,7 +67,7 @@
               >
                 <v-icon color="grey">mdi-refresh</v-icon>
               </v-btn>
-              <router-link :to="`/history/${item.address}`">
+              <router-link :to="`/history/${item.address}`" target="_blank">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
