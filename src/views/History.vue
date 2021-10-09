@@ -51,12 +51,14 @@ import { SPU, rpAddress } from '../chain/chain'
 import Web3 from 'web3'
 import { ethers } from 'ethers'
 import { usePrices } from '../store/prices'
+import { client, lpQuery } from '../chain/graphql'
+import gql from 'graphql-tag'
 
 export default defineComponent({
   setup() {
     const web3 = inject('web3') as Web3
-    const { spuUsd } = usePrices()
     const vm: any = getCurrentInstance()
+    const { spuUsd, getPrices } = usePrices()
     const claims = ref([] as any)
     const ISpu = new ethers.utils.Interface(SPU)
     const page = ref(1)
@@ -66,7 +68,8 @@ export default defineComponent({
     const claimHistoryHeaders = [
       { text: 'Txn Hash', value: 'hash' },
       { text: 'SPU', value: 'spu' },
-      { text: 'SPU / USD', value: 'spuUsd' },
+      { text: 'Current SPU / USD', value: 'spuUsd' },
+      { text: 'Transaction SPU / USD ', value: 'prevSpuUsd' },
       { text: 'Date', value: 'date' },
     ]
 
@@ -80,33 +83,57 @@ export default defineComponent({
       if (result) {
         const transactions = await Promise.all(
           result.map(async (r: any) => {
-            const transaction: any = await web3.eth.getTransactionReceipt(
-              r.hash
-            )
-            const tx: any = await web3.eth.getTransaction(r.hash)
-            const t: any = {}
-            t.hash = r.hash
-            t.date = new Date(r.timeStamp * 1000).toLocaleString()
-            if (transaction.logs) {
-              try {
-                for (const log of transaction.logs) {
-                  if (
-                    log.topics[0] ===
-                      '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef' &&
-                    log.topics[1] === encodedRPAddress
-                  ) {
-                    const data = ISpu.parseLog(log)
-                    const { value } = data.args
-                    t.spu = value / Math.pow(10, 9)
-                    t.spuUsd = (t.spu * spuUsd.value).toLocaleString('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                    })
-                    return t
+            if (r.to === '0x7f60375245cbf30a4f1ffd1278e3601fadca2c4d') {
+              const transaction: any = await web3.eth.getTransactionReceipt(
+                r.hash
+              )
+              const tx: any = await web3.eth.getTransaction(r.hash)
+              const t: any = {}
+              t.hash = r.hash
+              t.date = new Date(r.timeStamp * 1000).toLocaleString()
+              if (transaction.logs) {
+                try {
+                  for (const log of transaction.logs) {
+                    if (
+                      log.topics[0] ===
+                        '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef' &&
+                      log.topics[1] === encodedRPAddress
+                    ) {
+                      const data = ISpu.parseLog(log)
+                      const { value } = data.args
+                      t.spu = value / Math.pow(10, 9)
+                      t.spuUsd = (t.spu * spuUsd.value).toLocaleString(
+                        'en-US',
+                        {
+                          style: 'currency',
+                          currency: 'USD',
+                        }
+                      )
+
+                      const isoDate = new Date(r.timeStamp * 1000).toISOString()
+                      const result: any = await client.query({
+                        query: gql`
+                          ${lpQuery}
+                        `,
+                        variables: { time: isoDate },
+                      })
+                      const spuBnb = result.data.ethereum.spuBnb[0]?.quotePrice
+                      const bnbBusd =
+                        result.data.ethereum.bnbBusd[0]?.quotePrice
+                      const prevSpuUsd = spuBnb * bnbBusd
+                      t.prevSpuUsd = (t.spu * prevSpuUsd).toLocaleString(
+                        'en-US',
+                        {
+                          style: 'currency',
+                          currency: 'USD',
+                        }
+                      )
+                      return t
+                    }
                   }
+                } catch (error) {
+                  console.log(error)
                 }
-              } catch (error) {
-                console.log(error)
               }
             }
           })

@@ -12,24 +12,13 @@ const state = reactive({
 })
 
 const usePrices = () => {
-  const getPrices = () => {
+  const getPrices = (time: string) => {
     return useQuery(
       gql`
         ${lpQuery}
       `,
-      null,
-      {
-        pollInterval: 5000,
-      }
+      { time }
     )
-
-    // return client.watchQuery({
-    //   query: gql`
-    //     ${lpQuery}
-    //   `,
-    //   pollInterval: 5000,
-    //   fetchPolicy: 'no-cache',
-    // })
   }
 
   return { ...toRefs(state), getPrices }

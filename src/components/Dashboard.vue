@@ -59,32 +59,6 @@ export default defineComponent({
       )
     })
 
-    async function getSpuUsd0x() {
-      try {
-        const res: any = await axios.get(
-          `https://bsc.api.0x.org/swap/v1/quote?buyToken=0xe9e7cea3dedca5984780bafc599bd69add087d56&sellToken=0x7f60375245cbf30a4f1ffd1278e3601fadca2c4d&sellAmount=1000000000`
-        )
-        spuUsd.value = Number(Number(res.data.price).toFixed(4))
-      } catch (error) {
-        //
-      } finally {
-        setTimeout(getSpuUsd0x, 5000)
-      }
-    }
-    //getSpuUsd0x()
-
-    // const { result } = getPrices()
-    // watch(result, (result, prevResult) => {
-    //   if (result) {
-    //     spuUsd.value = Number(
-    //       (
-    //         result.ethereum.spuBnb[0].quotePrice *
-    //         result.ethereum.bnbBusd[0].quotePrice
-    //       ).toFixed(4)
-    //     )
-    //   }
-    // })
-
     return {
       totalSpu,
       totalSpuUsd,
