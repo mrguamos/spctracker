@@ -28,6 +28,9 @@
           <template v-slot:[`item.spuUsd`]="{ item }">
             {{ item.spuUsd.value }}
           </template>
+          <template v-slot:[`item.gasFee`]="{ item }">
+            {{ item.gasFee }} BNB
+          </template>
         </v-data-table>
         <div class="text-center pt-2">
           <v-pagination
@@ -72,9 +75,10 @@ export default defineComponent({
     const { initializing } = useGraphQL()
     const claimHistoryHeaders = [
       { text: 'Txn Hash', value: 'hash' },
+      { text: 'Gas Fee', value: 'gasFee' },
+      { text: 'BNB / USD at time of Txn', value: 'prevGasFee' },
       { text: 'SPU', value: 'spu' },
-      { text: 'Current SPU / USD', value: 'spuUsd' },
-      { text: 'Transaction SPU / USD ', value: 'prevSpuUsd' },
+      { text: 'SPU / USD at time of Txn', value: 'prevSpuUsd' },
       { text: 'Date', value: 'date' },
     ]
 
@@ -106,6 +110,7 @@ export default defineComponent({
                     ) {
                       const data = ISpu.parseLog(log)
                       const { value } = data.args
+                      t.gasFee = (r.gasPrice * r.gasUsed) / Math.pow(10, 18)
                       t.spu = value / Math.pow(10, 9)
                       t.spuUsd = computed(() => {
                         return (t.spu * spuUsd.value).toLocaleString('en-US', {
@@ -137,9 +142,18 @@ export default defineComponent({
                             currency: 'USD',
                           }
                         )
+
+                        t.prevGasFee = (t.gasFee * bnbBusd).toLocaleString(
+                          'en-US',
+                          {
+                            style: 'currency',
+                            currency: 'USD',
+                          }
+                        )
                       } catch (error) {
                         console.log(error)
                         t.prevSpuUsd = 'Unable to fetch from bitquery'
+                        t.prevGasFee = 'Unable to fetch from bitquery'
                       }
 
                       return t

@@ -180,13 +180,6 @@ export default defineComponent({
     }
 
     async function removeAccount(item: any, index: number) {
-      try {
-        await item.subscription.unsubscribe()
-        console.log('Unsubscribed', item.address)
-      } catch (error) {
-        console.log(error)
-      }
-
       accounts.value.splice(index, 1)
       const sa = accounts.value.map((a) => {
         return { address: a.address, name: a.name }
