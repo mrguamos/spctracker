@@ -76,9 +76,9 @@ export default defineComponent({
     const claimHistoryHeaders = [
       { text: 'Txn Hash', value: 'hash' },
       { text: 'Gas Fee', value: 'gasFee' },
-      { text: 'Estimated BNB / USD at time of Txn', value: 'prevGasFee' },
+      { text: 'Estimated Gas Fee at time of Txn', value: 'prevGasFee' },
       { text: 'SPU', value: 'spu' },
-      { text: 'Estimated SPU / USD at time of Txn', value: 'prevSpuUsd' },
+      { text: 'Estimated Reward at time of Txn', value: 'prevSpuUsd' },
       { text: 'Date', value: 'date' },
     ]
 
