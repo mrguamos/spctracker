@@ -30,7 +30,7 @@ const httpLink = createHttpLink({
 // Cache implementation
 const cache = new InMemoryCache()
 
-export let client: any
+//export let client: any
 
 // persistCache({
 //   cache,
@@ -43,7 +43,7 @@ export let client: any
 //   state.initializing = false
 // })
 
-client = new ApolloClient({
+export const client = new ApolloClient({
   link: httpLink,
   cache,
 })
