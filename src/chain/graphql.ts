@@ -17,7 +17,7 @@ const useGraphQL = () => {
   return { ...toRefs(state) }
 }
 
-export const API_KEY = 'BQYgEoqOYEcN4A1DyI2L4aistDjEUMc3'
+export const API_KEY = 'BQYvhnv04csZHaprIBZNwtpRiDIwEIW9'
 export const url = 'https://graphql.bitquery.io/'
 
 const httpLink = createHttpLink({
