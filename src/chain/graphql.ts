@@ -32,16 +32,22 @@ const cache = new InMemoryCache()
 
 export let client: any
 
-persistCache({
+// persistCache({
+//   cache,
+//   storage: new LocalStorageWrapper(window.localStorage),
+// }).then(() => {
+//   client = new ApolloClient({
+//     link: httpLink,
+//     cache,
+//   })
+//   state.initializing = false
+// })
+
+client = new ApolloClient({
+  link: httpLink,
   cache,
-  storage: new LocalStorageWrapper(window.localStorage),
-}).then(() => {
-  client = new ApolloClient({
-    link: httpLink,
-    cache,
-  })
-  state.initializing = false
 })
+state.initializing = false
 
 export const lpQuery = `query GetSpuUsd($time: ISO8601DateTime!, $date: ISO8601DateTime!){
   ethereum(network: bsc) {
